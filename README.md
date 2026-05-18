@@ -21,21 +21,6 @@ Spring Boot microservices for a banking wallet platform.
 | config-server | 8888 | config |
 | service-registry | 8761 | Eureka |
 
-## Run
-
-Build each service jar, then start the stack:
-
-```bash
-mvn clean package
-docker compose up --build
-```
-
-If Maven is not installed globally, use the checked-in wrapper from any existing service:
-
-```powershell
-.\api-gateway\mvnw.cmd -f pom.xml clean package
-docker compose up --build
-```
 
 ## End-to-end flow
 
