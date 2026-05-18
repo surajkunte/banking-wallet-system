@@ -30,3 +30,43 @@ Spring Boot microservices for a banking wallet platform.
 4. Create wallets in `wallet-service`.
 5. Perform wallet transfers in `transfer-service`.
 6. Record or query transaction, fraud, notification, audit, ledger, and reconciliation data through their services or via `api-gateway`.
+
+Microservices:
+1. auth-service
+User registration and login
+
+2. customer-service
+Stores customer profile details
+
+4. kyc-service
+KYC submission and approval workflow
+
+6. wallet-service
+Wallet creation
+Balance management
+Fund reservation and release
+
+8. transfer-service
+Orchestrates transfers between wallets
+
+10. transaction-service
+Tracks transaction states (PENDING, SUCCESS, FAILED)
+
+12. ledger-service
+Double-entry bookkeeping
+Immutable financial records
+
+14. fraud-service
+Daily transaction limits
+
+15. notification-service
+Sends email/SMS/in-app notifications
+
+17. reconciliation-service
+Detects mismatches between wallet balances and ledger totals
+
+19. api-gateway
+Single entry point for clients
+
+21. config-server
+Centralized configuration management
