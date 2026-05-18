@@ -1,0 +1,14 @@
+server:
+  port: 8091
+
+spring:
+  application:
+    name: reconciliation-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reconciliation_db
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

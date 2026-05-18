@@ -1,0 +1,14 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: fraud-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fraud_db
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
