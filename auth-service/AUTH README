@@ -1,0 +1,78 @@
+REGISTER:
+Client
+  ↓
+POST /auth/register
+  ↓
+AuthController
+  ↓
+@Valid RegisterRequest
+  ↓
+AuthService
+  ↓
+PasswordEncoder (BCrypt)
+  ↓
+UserRepository
+  ↓
+PostgreSQL
+
+LOGIN:
+POST /auth/login
+        ↓
+AuthController
+        ↓
+AuthService.login()
+        ↓
+Validate password
+        ↓
+JwtService.generateToken()
+        ↓
+Return JWT
+
+Authentication Flow
+JWT token
+   ↓
+Extract email
+   ↓
+CustomUserDetailsService.loadUserByUsername(email)
+   ↓
+UserRepository.findByEmail(email)
+   ↓
+Return UserDetails
+
+Client
+  ↓
+Authorization: Bearer <jwt>
+  ↓
+JwtAuthenticationFilter
+  ↓
+JwtService validates token
+  ↓
+Extract email
+  ↓
+CustomUserDetailsService loads user
+  ↓
+SecurityContextHolder stores authentication
+  ↓
+AuthController.me()
+
+Features Implemented
+Authentication
+✅ User registration
+✅ User login
+✅ BCrypt password hashing
+✅ JWT access token generation
+✅ JWT validation
+✅ Protected endpoints (/auth/me)
+Session Management
+✅ Refresh token generation
+✅ Refresh token persistence
+✅ Refresh token renewal
+✅ Logout with token revocation
+Security
+✅ Spring Security
+✅ Stateless authentication
+✅ Custom JWT filter
+✅ UserDetailsService
+Persistence
+✅ PostgreSQL integration
+✅ JPA entities and repositories
