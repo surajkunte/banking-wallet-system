@@ -1,0 +1,165 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: banking-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      - postgres
+
+  service-registry:
+    build: ./service-registry
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-server
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://auth-service:8081
+      SPRING_CLOUD_GATEWAY_ROUTES_1_URI: http://customer-service:8082
+      SPRING_CLOUD_GATEWAY_ROUTES_2_URI: http://wallet-service:8083
+      SPRING_CLOUD_GATEWAY_ROUTES_3_URI: http://ledger-service:8084
+      SPRING_CLOUD_GATEWAY_ROUTES_4_URI: http://transfer-service:8085
+      SPRING_CLOUD_GATEWAY_ROUTES_5_URI: http://kyc-service:8086
+      SPRING_CLOUD_GATEWAY_ROUTES_6_URI: http://transaction-service:8087
+      SPRING_CLOUD_GATEWAY_ROUTES_7_URI: http://fraud-service:8088
+      SPRING_CLOUD_GATEWAY_ROUTES_8_URI: http://notification-service:8089
+      SPRING_CLOUD_GATEWAY_ROUTES_9_URI: http://audit-service:8090
+      SPRING_CLOUD_GATEWAY_ROUTES_10_URI: http://reconciliation-service:8091
+    depends_on:
+      - config-server
+      - service-registry
+
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/auth_db
+    depends_on:
+      - postgres
+      - config-server
+
+  customer-service:
+    build: ./customer-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/customer_db
+    depends_on:
+      - postgres
+      - config-server
+
+  wallet-service:
+    build: ./wallet-service
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/wallet_db
+    depends_on:
+      - postgres
+      - config-server
+
+  ledger-service:
+    build: ./ledger-service
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ledger_db
+    depends_on:
+      - postgres
+      - config-server
+
+  transfer-service:
+    build: ./transfer-service
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/transfer_db
+      WALLET_SERVICE_URL: http://wallet-service:8083
+      LEDGER_SERVICE_URL: http://ledger-service:8084
+    depends_on:
+      - postgres
+      - config-server
+      - wallet-service
+      - ledger-service
+
+  kyc-service:
+    build: ./kyc-service
+    ports:
+      - "8086:8086"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/kyc_db
+    depends_on:
+      - postgres
+      - config-server
+
+  transaction-service:
+    build: ./transaction-service
+    ports:
+      - "8087:8087"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/transaction_db
+    depends_on:
+      - postgres
+      - config-server
+
+  fraud-service:
+    build: ./fraud-service
+    ports:
+      - "8088:8088"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fraud_db
+    depends_on:
+      - postgres
+      - config-server
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "8089:8089"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/notification_db
+    depends_on:
+      - postgres
+      - config-server
+
+  audit-service:
+    build: ./audit-service
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/audit_db
+    depends_on:
+      - postgres
+      - config-server
+
+  reconciliation-service:
+    build: ./reconciliation-service
+    ports:
+      - "8091:8091"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/reconciliation_db
+    depends_on:
+      - postgres
+      - config-server
+
+volumes:
+  postgres_data:

@@ -27,7 +27,7 @@
         <url/>
     </scm>
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
         <spring-cloud.version>2025.1.1</spring-cloud.version>
     </properties>
     <dependencies>
@@ -82,6 +82,11 @@
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-models-jakarta</artifactId>
+            <version>2.2.30</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -124,6 +129,7 @@
                                 <path>
                                     <groupId>org.projectlombok</groupId>
                                     <artifactId>lombok</artifactId>
+                                    <version>1.18.38</version>
                                 </path>
                             </annotationProcessorPaths>
                         </configuration>
@@ -139,6 +145,7 @@
                                 <path>
                                     <groupId>org.projectlombok</groupId>
                                     <artifactId>lombok</artifactId>
+                                    <version>1.18.38</version>
                                 </path>
                             </annotationProcessorPaths>
                         </configuration>

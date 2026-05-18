@@ -13,7 +13,7 @@
     <name>Banking Wallet System</name>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
         <spring.boot.version>3.5.0</spring.boot.version>
         <spring.cloud.version>2025.0.0</spring.cloud.version>
     </properties>
@@ -25,6 +25,13 @@
         <module>customer-service</module>
         <module>wallet-service</module>
         <module>ledger-service</module>
+        <module>kyc-service</module>
+        <module>transaction-service</module>
+        <module>fraud-service</module>
+        <module>notification-service</module>
+        <module>audit-service</module>
+        <module>reconciliation-service</module>
+        <module>service-registry</module>
         <module>transfer-service</module>
     </modules>
 
@@ -47,5 +54,13 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>
